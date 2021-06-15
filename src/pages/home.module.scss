@@ -36,11 +36,6 @@
     button {
       background: var(--white);
       color: #7F7F7F;
-
-      &.selected {
-        color: #404040;
-        border-color: #9fda72;
-      }
       
       &[type="submit"] {
         margin-top: 1rem;

@@ -1,5 +1,7 @@
 import Head from "next/head";
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
+import { InputRadio } from "../components/Form/InputRadio";
+import { InputValue } from "../components/Form/InputValue";
 
 import styles from "./home.module.scss";
 
@@ -21,11 +23,16 @@ export default function Home() {
 
       <main className={styles.mainContainer}>
         <form>
-          <label htmlFor="gender">Gênero</label>
-          <div id="gender">
-            <button type="button" name="female" className={styles.selected}>Feminino</button>
-            <button type="button" name="male">Masculino</button>
-          </div>
+          <InputRadio
+            name="gender"
+            label="Gênero"
+            value={gender}
+            onSelect={setGender}
+          >
+            <InputValue name="female">Feminino</InputValue>
+            <InputValue name="male">Masculino</InputValue>
+          </InputRadio>
+
           <label htmlFor="age">Idade</label>
           <div id="age">
             <input type="number" placeholder="35" />
@@ -56,12 +63,17 @@ export default function Home() {
             <input type="number" placeholder="120" />
             <span>cm</span>
           </div>
-          <label htmlFor="activity">Atividade física</label>
-          <div id="activity">
-            <button type="button">Sedentária</button>
-            <button type="button" name="regular" className={styles.selected}>Moderada</button>
-            <button type="button">Intensa</button>
-          </div>
+
+          <InputRadio
+            name="activity"
+            label="Atividade física"
+            value={activity}
+            onSelect={setActivity}
+          >
+            <InputValue name="sedentary">Sedentária</InputValue>
+            <InputValue name="regular">Moderada</InputValue>
+            <InputValue name="intense">Intensa</InputValue>
+          </InputRadio>
           <button type="submit">Calcular</button>
         </form>
       </main>
