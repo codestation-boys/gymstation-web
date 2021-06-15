@@ -1,16 +1,13 @@
-import { AppProps } from "next/app";
-import { Provider as NextAuthProvider } from "next-auth/client";
+import {AppProps} from "next/app";
+import {ChakraProvider} from '@chakra-ui/react'
+import {theme} from "../styles/theme";
 
-import "../styles/global.scss";
-
-// O NextAuthProvider é o contexto de alguma sessão de autênticação futura.
-
-function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <NextAuthProvider session={pageProps.session}>
-      <Component {...pageProps} />
-    </NextAuthProvider>
-  );
+function MyApp({Component, pageProps}: AppProps) {
+    return (
+        <ChakraProvider theme={theme}>
+            <Component {...pageProps} />
+        </ChakraProvider>
+    )
 }
 
-export default MyApp;
+export default MyApp
