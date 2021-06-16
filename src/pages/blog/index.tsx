@@ -6,6 +6,7 @@ import {GetStaticProps} from "next";
 import {getPrismicClient} from "../../services/prismic";
 import Prismic from "@prismicio/client";
 import {RichText} from "prismic-dom";
+import Link from 'next/link';
 
 
 interface PostsProps {
@@ -21,36 +22,39 @@ type Post = {
 }
 
 export default function Blog({posts}: PostsProps) {
-  return <>
-    <Head>
-      <title>Blog | GymStation</title>
-    </Head>
-    <Flex direction="column" h='100vh'>
-      <Header/>
-      <Flex w='100%' my='6' maxWidth={1480} mx='auto' px='6'>
-        <Sidebar/>
+  return (
+    <>
+      <Head>
+        <title>Blog | GymStation</title>
+      </Head>
+      <Flex direction="column" h='100vh'>
+        <Header/>
+        <Flex w='100%' my='6' maxWidth={1480} mx='auto' px='6'>
+          <Sidebar/>
 
-        <SimpleGrid flex='1' gap='4' minChildWidth='320px' align='flex-start'>
-          {posts.map(post => (
-            <Box
-              p='8'
-              bg='gray.800'
-              borderRadius={8}
-              PB='4'
-            >
-              <Image src={post.image} alt="Segun Adebayo"/>
-              <Text mt='4'>{post.updatedAt}</Text>
-              <Text fontSize='lg' fontWeight='bold' my='2'>{post.title}</Text>
-              <Text >{post.excerpt}</Text>
+          <SimpleGrid flex='1' gap='4' minChildWidth='320px' align='flex-start'>
+            {posts.map(post => (
+              <Link href={`/blog/${post.slug}`}>
 
-            </Box>
-          ))}
+                <Box
+                  p='8'
+                  bg='gray.800'
+                  borderRadius={8}
+                  pb='4'
+                >
+                  <Image src={post.image} alt="Segun Adebayo"/>
+                  <Text mt='4'>{post.updatedAt}</Text>
+                  <Text fontSize='lg' fontWeight='bold' my='2'>{post.title}</Text>
+                  <Text>{post.excerpt}</Text>
 
-
-        </SimpleGrid>
+                </Box>
+              </Link>
+            ))}
+          </SimpleGrid>
+        </Flex>
       </Flex>
-    </Flex>
-  </>
+    </>
+  )
 }
 
 export const getServerSideProps: GetStaticProps = async () => {
