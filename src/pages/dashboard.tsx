@@ -1,5 +1,5 @@
-import {Box, Flex, SimpleGrid, Text, theme} from "@chakra-ui/react";
-import {Sidebar} from "../components/Sidebar";
+import { Box, Flex, SimpleGrid, Text, theme } from "@chakra-ui/react";
+import { Sidebar } from "../components/Sidebar";
 import dynamic from "next/dynamic";
 
 const Chart = dynamic(() => import('react-apexcharts'), {
@@ -59,63 +59,38 @@ const options = {
 const series = [
   {
     name: 'series1',
-    data: [31, 120, 10, 28, 51, 18, 109]
+    data: [31, 120, 10, 28, 51, 18, 109],
   }
 ]
 
 export default function Dashboard() {
   return (
-    <Flex w='100%' my='6' maxWidth={1480} mx='auto' px='6' mt='12'>
-      <Sidebar/>
-      <SimpleGrid flex='1' gap='4' minChildWidth='320px' align='flex-start' >
-        <Box
-          p='8'
-          bg='gray.800'
-          borderRadius={8}
-          PB='4'
-        >
+    <Flex w='100%'>
+      <Sidebar />
+      <SimpleGrid flex='1' gap='4' minChildWidth='320px' align='flex-start' p='8'>
+        <Box p='8' bg='gray.800' borderRadius={8}>
           <Text fontSize='lg' mb='4'>
             Peso
           </Text>
-          <Chart options={options} series={series} type='area' height={160}/>
+          <Chart options={options} series={series} type='area' height={160} />
         </Box>
-        <Box
-          p='8'
-          bg='gray.800'
-          borderRadius={8}
-          PB='4'
-
-        >
+        <Box p='8' bg='gray.800' borderRadius={8} PB='4'>
           <Text fontSize='lg' mb='4'>
             Cintura
           </Text>
-          <Chart options={options} series={series} type='area' height={160}/>
-
+          <Chart options={options} series={series} type='area' height={160} />
         </Box>
-        <Box
-          p='8'
-          bg='gray.800'
-          borderRadius={8}
-          PB='4'
-
-        >
+        <Box p='8' bg='gray.800' borderRadius={8} PB='4'>
           <Text fontSize='lg' mb='4'>
             Pescoço
           </Text>
-          <Chart options={options} series={series} type='area' height={160}/>
-
+          <Chart options={options} series={series} type='area' height={160} />
         </Box>
-        <Box
-          p='8'
-          bg='gray.800'
-          borderRadius={8}
-          PB='4'
-
-        >
+        <Box p='8' bg='gray.800' borderRadius={8} PB='4'>
           <Text fontSize='lg' mb='4'>
             Quadril
           </Text>
-          <Chart options={options} series={series} type='area' height={160}/>
+          <Chart options={options} series={series} type='area' height={160} />
         </Box>
       </SimpleGrid>
     </Flex>
