@@ -5,6 +5,7 @@ import { getSession, useSession } from "next-auth/client";
 import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
 import { GetServerSideProps } from "next";
+import { Session } from "next-auth";
 
 // type UserData = {
 //   name: string;
@@ -12,9 +13,9 @@ import { GetServerSideProps } from "next";
 //   image: string;
 // };
 
-// interface DashboardProps {
-//   userData: UserData;
-// }
+interface DashboardProps {
+  session: Session;
+}
 
 const Chart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -77,12 +78,11 @@ const series = [
   },
 ];
 
-export default function Dashboard() {
-  const [session] = useSession();
+export default function Dashboard({ session }: DashboardProps) {
   const router = useRouter();
 
   useEffect(() => {
-    if (!session) {
+    if (!session?.user) {
       router.push(`/login`);
     }
   }, [session]);
@@ -130,9 +130,8 @@ export const getServerSideProps: GetServerSideProps = async ({
   req,
   params,
 }) => {
-  console.log({ params });
   const session = await getSession({ req });
-  console.log({session})
+
   if (!session?.user) {
     return {
       redirect: {
@@ -144,7 +143,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   return {
     props: {
-      userData: session.user,
+      session,
     },
   };
 };
