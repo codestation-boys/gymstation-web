@@ -1,19 +1,31 @@
 import { Button, Flex, Stack } from "@chakra-ui/react";
-import { signIn } from "next-auth/client";
-import { FormEvent, useState } from "react";
+import { signIn, useSession } from "next-auth/client";
+import { useRouter } from "next/dist/client/router";
+import { FormEvent, useEffect, useState } from "react";
 import { Input } from "../components/Form/Input";
 
-export default function Home() {
+export default function Login() {
+  const [session] = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session?.user) {
+      router.push(`/dashboard`);
+    }
+  }, [session]);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleSignIn(event: FormEvent) {
+  async function handleSignIn(event: FormEvent) {
     event.preventDefault();
 
-    signIn("credentials", { redirect: false, email, password });
-
-    setEmail("");
-    setPassword("");
+    await signIn("credentials", {
+      callbackUrl: "/dashboard",
+      redirect: false,
+      email,
+      password,
+    });
   }
 
   return (

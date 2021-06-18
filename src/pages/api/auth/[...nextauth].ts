@@ -27,10 +27,10 @@ export default NextAuth({
           headers: { authorization: `Basic ${parseCredentialsToBasicAuth}` },
         });
 
-        const user = await response.json();
+        const { user_data } = await response.json();
 
-        if (response.ok && user) {
-          return user;
+        if (response.ok && user_data) {
+          return user_data;
         }
 
         return null;
@@ -40,11 +40,17 @@ export default NextAuth({
 
   callbacks: {
     async session(session) {
-      return { ...session };
+
+      return session;
     },
 
     async signIn(user, account, profile) {
+      console.log({ user, account, profile });
       return true;
+    },
+
+    async redirect(url, baseUrl) {
+      return url.startsWith(baseUrl) ? url : baseUrl;
     },
   },
 });
