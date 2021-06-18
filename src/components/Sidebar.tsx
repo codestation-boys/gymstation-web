@@ -1,8 +1,18 @@
 import {Avatar, Box, Flex, Icon, Image, Link, Stack, Text, Divider,} from "@chakra-ui/react";
 import {RiDashboardLine, RiDossierLine, RiNewspaperLine} from "react-icons/ri";
 import {FaDumbbell} from "react-icons/fa";
+import { useSession } from "next-auth/client";
+
+type UserData = {
+  name: string;
+  email: string;
+  image: string;
+};
 
 export function Sidebar() {
+  const [session] = useSession()
+
+
   return (
     <Box as='aside' w='64' m='2.5rem' display={['none', 'none', 'block' ]}>
       <Stack spacing='12'>
@@ -53,12 +63,12 @@ export function Sidebar() {
           <Flex direction='row' spacing='2'>
             <Avatar
               size='md'
-              name='Savio Castelo'
-              src='https://github.com/savio591.png'
+              name={session.user.name}
+              src={session.user.image}
             />
             <Box ml='2'>
-              <Text fontSize='lg' fontWeight='medium'>Savio Castelo</Text>
-              <Text fontSize='sm' fontWeight='normal'>savio591@hotmail.com</Text>
+              <Text fontSize='lg' fontWeight='medium'>{session.user.name}</Text>
+              <Text fontSize='sm' fontWeight='normal'>{session.user.email}</Text>
             </Box>
           </Flex>
         </Box>
