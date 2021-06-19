@@ -1,88 +1,57 @@
 import { Box, Flex, SimpleGrid, Text, theme } from "@chakra-ui/react";
 import { Sidebar } from "../components/Sidebar";
 import dynamic from "next/dynamic";
-import { getSession, useSession } from "next-auth/client";
+import { getSession, signOut, useSession } from "next-auth/client";
 import { useRouter } from "next/dist/client/router";
 import { useEffect } from "react";
 import { GetServerSideProps } from "next";
 import { Session } from "next-auth";
+import { apexOptions } from "../utils/apexChartsConfig";
 
-// type UserData = {
-//   name: string;
-//   email: string;
-//   image: string;
-// };
+type HistoricMeasures = {
+  height: number;
+  weight: number;
+  waist: number;
+  neck: number;
+  created_at: Date;
+};
 
+type UnitsMeasure = {
+  height: string;
+  weight: string;
+  waist: string;
+  neck: string;
+};
+
+interface UserMeasureData {
+  historicMeasures: HistoricMeasures[];
+  unitsMeasure: UnitsMeasure;
+}
 interface DashboardProps {
   session: Session;
+  userMeasuresData: UserMeasureData;
 }
 
 const Chart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
-const options = {
-  colors: [theme.colors.red[500]],
-  chart: {
-    toolbar: {
-      show: false,
-    },
-    zoom: {
-      enabled: false,
-    },
-    foreColor: theme.colors.gray[500],
-  },
-  grid: {
-    show: false,
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  tooltip: {
-    enabled: false,
-  },
-  xAxis: {
-    type: "datetime",
-    axisBorder: {
-      color: theme.colors.gray[600],
-    },
-    axisTicks: {
-      color: theme.colors.gray[600],
-    },
-    categories: [
-      "2021-03-18T00:00:00.000Z",
-      "2021-03-19T00:00:00.000Z",
-      "2021-03-20T00:00:00.000Z",
-      "2021-03-21T00:00:00.000Z",
-      "2021-03-22T00:00:00.000Z",
-      "2021-03-23T00:00:00.000Z",
-      "2021-03-24T00:00:00.000Z",
-    ],
-  },
-  fill: {
-    colors: [theme.colors.red[500]],
-    opacity: 0.3,
-    type: "gradient",
-    gradient: {
-      shade: "dark",
-      opacityFrom: 0.7,
-      opacityTo: 0.3,
-    },
-  },
-};
-
-const series = [
-  {
-    name: "series1",
-    data: [31, 120, 10, 28, 51, 18, 109],
-  },
-];
-
-export default function Dashboard({ session }: DashboardProps) {
+export default function Dashboard({ userMeasuresData }: DashboardProps) {
   const router = useRouter();
+  const [session] = useSession();
+
+  const weight = [
+    {
+      name: "weight",
+      data: userMeasuresData.historicMeasures.map((measure, id) => [
+        new Date(measure.created_at),
+        measure.weight,
+      ]),
+    },
+  ];
 
   useEffect(() => {
-    if (!session?.user) {
+    if (!session) {
       router.push(`/login`);
     }
   }, [session]);
@@ -101,25 +70,12 @@ export default function Dashboard({ session }: DashboardProps) {
           <Text fontSize="lg" mb="4">
             Peso
           </Text>
-          <Chart options={options} series={series} type="area" height={160} />
-        </Box>
-        <Box p="8" bg="gray.800" borderRadius={8} PB="4">
-          <Text fontSize="lg" mb="4">
-            Cintura
-          </Text>
-          <Chart options={options} series={series} type="area" height={160} />
-        </Box>
-        <Box p="8" bg="gray.800" borderRadius={8} PB="4">
-          <Text fontSize="lg" mb="4">
-            Pescoço
-          </Text>
-          <Chart options={options} series={series} type="area" height={160} />
-        </Box>
-        <Box p="8" bg="gray.800" borderRadius={8} PB="4">
-          <Text fontSize="lg" mb="4">
-            Quadril
-          </Text>
-          <Chart options={options} series={series} type="area" height={160} />
+          <Chart
+            options={apexOptions}
+            series={weight}
+            type="area"
+            height={160}
+          />
         </Box>
       </SimpleGrid>
     </Flex>
@@ -131,8 +87,28 @@ export const getServerSideProps: GetServerSideProps = async ({
   params,
 }) => {
   const session = await getSession({ req });
+  const url = "http://localhost:3333/statistics/measures";
 
-  if (!session?.user) {
+  // if (!session) {
+  //   return {
+  //     redirect: {
+  //       destination: "/login",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      authorization: `Bearer ${session?.accessToken}`,
+    },
+  });
+
+  const userMeasuresData = await response.json();
+
+  if (!response.ok) {
+    signOut();
     return {
       redirect: {
         destination: "/",
@@ -143,7 +119,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   return {
     props: {
-      session,
+      userMeasuresData,
     },
   };
 };
