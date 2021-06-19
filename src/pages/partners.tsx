@@ -1,4 +1,5 @@
-import { Flex, SimpleGrid, Box, Icon, Heading } from "@chakra-ui/react";
+import Head from "next/head";
+import { Flex, SimpleGrid, Icon, Heading } from "@chakra-ui/react";
 import { RiMapPinUserFill } from "react-icons/ri";
 import { PartnerBox } from "../components/PartnerBox";
 import { Sidebar } from "../components/Sidebar";
@@ -6,6 +7,10 @@ import { Sidebar } from "../components/Sidebar";
 export default function Partners() {
   return (
     <Flex w="100%">
+      <Head>
+        <title>GymStation | Encontrar parceiros de treino</title>
+      </Head>
+
       <Sidebar />
 
       <Flex direction="column" w="100%" h="100%">
