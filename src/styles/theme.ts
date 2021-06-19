@@ -9,6 +9,10 @@ export const theme = extendTheme({
     brand: {
       50: "#18171B",
     },
+    gray: {
+      100: "#8F8F8F",
+      600: "#262731",
+    },
   },
   styles: {
     global: {

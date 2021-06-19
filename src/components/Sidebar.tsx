@@ -13,6 +13,7 @@ import {
   RiDashboardLine,
   RiDossierLine,
   RiNewspaperLine,
+  RiMapPinUserFill
 } from "react-icons/ri";
 import { FaDumbbell } from "react-icons/fa";
 import { useSession } from "next-auth/client";
@@ -41,6 +42,12 @@ export function Sidebar() {
               <Icon as={RiNewspaperLine} fontSize="20" />
               <Text ml="4" fontWeight="medium">
                 Blog
+              </Text>
+            </Link>
+            <Link display="flex" align="center" href="/blog">
+              <Icon as={RiMapPinUserFill} fontSize="20" />
+              <Text ml="4" fontWeight="medium">
+                Encontrar parceiros
               </Text>
             </Link>
           </Stack>
