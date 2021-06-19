@@ -1,4 +1,5 @@
 import { Flex, SimpleGrid, Box, Text, Divider, Center, Stack } from "@chakra-ui/react";
+import { PartnerBox } from "../components/PartnerBox";
 import { Sidebar } from "../components/Sidebar";
 
 export default function Partners() {
@@ -9,60 +10,37 @@ export default function Partners() {
         flex="1"
         gap="14"
         minChildWidth="320px"
+        h="100%"
         align="flex-start"
         p="8"
       >
-        <Stack
-          direction="row"
-          bg="gray.600"
-          h="85px"
-          p={4}
-          spacing={4}
-          borderRadius={12}
-          align="center"
-        >
-          <Text>1.2km</Text>
+        <PartnerBox
+          distance={1.2}
+          partner="Arthur"
+          activity="Caminhada"
+          goal="Sair do Sedent."
+        />
 
-          <Divider orientation="vertical" />
+        <PartnerBox
+          distance={1.3}
+          partner="Savio Castelo"
+          activity="Caminhada"
+          goal="Sair do Sedent."
+        />
 
-          <Stack direction="column" h="100%" spacing={1}>
-            <Text>Arthur</Text>
+        <PartnerBox
+          distance={1.4}
+          partner="Jhonata Gutemberg"
+          activity="Academia"
+          goal="Perder peso"
+        />
 
-            <Divider orientation="horizontal" />
-
-            <Stack spacing={3} direction="row" align="center">
-              <Text>Sair do Sedent.</Text>
-              <Box w="6px" h="6px" bg="white" borderRadius={3}></Box>
-              <Text>Caminhada</Text>
-            </Stack>
-          </Stack>
-        </Stack>
-
-        <Stack
-          direction="row"
-          bg="gray.600"
-          h="85px"
-          p={4}
-          spacing={4}
-          borderRadius={12}
-          align="center"
-        >
-          <Text>1.2km</Text>
-
-          <Divider orientation="vertical" />
-
-          <Stack direction="column" h="100%" spacing={1}>
-            <Text>Arthur</Text>
-
-            <Divider orientation="horizontal" />
-
-            <Stack spacing={3} direction="row" align="center">
-              <Text>Sair do Sedent.</Text>
-              <Box w="6px" h="6px" bg="white" borderRadius={3}></Box>
-              <Text>Caminhada</Text>
-            </Stack>
-          </Stack>
-        </Stack>
+        <PartnerBox
+          distance={1.9}
+          partner="Ana Julia"
+          activity="Academia"
+          goal="Perder peso"
+        />
       </SimpleGrid>
     </Flex>
   );
