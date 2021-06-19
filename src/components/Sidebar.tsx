@@ -44,7 +44,7 @@ export function Sidebar() {
                 Blog
               </Text>
             </Link>
-            <Link display="flex" align="center" href="/blog">
+            <Link display="flex" align="center" href="/partners">
               <Icon as={RiMapPinUserFill} fontSize="20" />
               <Text ml="4" fontWeight="medium">
                 Encontrar parceiros
