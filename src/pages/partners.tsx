@@ -9,6 +9,7 @@ export default function Partners() {
 
   function handleGeolocationSuccess(location: GeolocationPosition) {
     const { latitude, longitude } = location.coords;
+    console.log(latitude, longitude);
   }
 
   function handleGeolocationError(error: GeolocationPositionError) {
