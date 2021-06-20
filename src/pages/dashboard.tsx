@@ -1,4 +1,4 @@
-import { Box, Flex, SimpleGrid, Text, theme } from "@chakra-ui/react";
+import { Box, Flex, SimpleGrid, Text } from "@chakra-ui/react";
 import { Sidebar } from "../components/Sidebar";
 import dynamic from "next/dynamic";
 import { getSession, signOut, useSession } from "next-auth/client";
@@ -52,7 +52,7 @@ export default function Dashboard({ userMeasuresData }: DashboardProps) {
 
   useEffect(() => {
     if (!session) {
-      router.push(`/login`);
+      router.push(`/signIn`);
     }
   }, [session]);
 

@@ -4,7 +4,7 @@ import { useRouter } from "next/dist/client/router";
 import { FormEvent, useEffect, useState } from "react";
 import { Input } from "../components/Form/Input";
 
-export default function Login() {
+export default function SignUp() {
   const [session] = useSession();
   const router = useRouter();
 

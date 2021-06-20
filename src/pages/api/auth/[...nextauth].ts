@@ -1,7 +1,8 @@
 import NextAuth, { User } from "next-auth";
-
 import Providers from "next-auth/providers";
+
 import { refreshAccessToken } from "../../../services/refreshAcessToken";
+import { api } from "../../../services/api";
 
 interface CredentialsProps {
   email: string;
@@ -29,23 +30,26 @@ export default NextAuth({
           `${email}:${password}`
         ).toString("base64");
 
-        const response = await fetch("http://localhost:3333/accounts/login", {
-          method: "POST",
-          headers: { authorization: `Basic ${parseCredentialsToBasicAuth}` },
-        });
+        try {
+          const response = await api.post("/accounts/login", {}, {
+            headers: { authorization: `Basic ${parseCredentialsToBasicAuth}` }
+          });
 
-        const user = await response.json();
+          const user = response.data;
 
+          if(response.status !== 200) {
+            return Promise.reject(user.message);
+          }
 
-        if(!response.ok) {
-          throw user
-        }
+          if (response.status === 200 && user) {
+            return user;
+          }
 
-        if (response.ok && user) {
-          return user;
-        }
+          } catch (err) {
+            throw err.response.data.message;
+          }
 
-        return null;
+          return null;
       },
     }),
   ],
@@ -66,7 +70,7 @@ export default NextAuth({
 
       console.log("Siging after account return")
 
-      return "/login";
+      return "/signIn";
     },
 
     async jwt(token, user, account, profile, isNewUser) {

@@ -1,15 +1,20 @@
 import Head from "next/head";
+
+import { useEffect } from "react";
+
 import { Flex, SimpleGrid, Icon, Heading } from "@chakra-ui/react";
 import { RiMapPinUserFill } from "react-icons/ri";
+
+import { api } from "../services/api";
+
 import { PartnerBox } from "../components/PartnerBox";
 import { Sidebar } from "../components/Sidebar";
-import { useEffect } from "react";
 
 export default function Partners() {
 
-  function handleGeolocationSuccess(location: GeolocationPosition) {
+  async function handleGeolocationSuccess(location: GeolocationPosition) {
     const { latitude, longitude } = location.coords;
-    console.log(latitude, longitude);
+    //const response = await api.get('/');
   }
 
   function handleGeolocationError(error: GeolocationPositionError) {
