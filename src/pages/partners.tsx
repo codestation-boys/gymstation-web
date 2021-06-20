@@ -3,8 +3,24 @@ import { Flex, SimpleGrid, Icon, Heading } from "@chakra-ui/react";
 import { RiMapPinUserFill } from "react-icons/ri";
 import { PartnerBox } from "../components/PartnerBox";
 import { Sidebar } from "../components/Sidebar";
+import { useEffect } from "react";
 
 export default function Partners() {
+
+  function handleGeolocationSuccess(location: GeolocationPosition) {
+    const { latitude, longitude } = location.coords;
+  }
+
+  function handleGeolocationError(error: GeolocationPositionError) {
+    console.log(error.message);
+  }
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(handleGeolocationSuccess, handleGeolocationError);
+    }
+  }, []);
+
   return (
     <Flex w="100%">
       <Head>
