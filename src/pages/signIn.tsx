@@ -1,9 +1,10 @@
 import { signIn, useSession } from "next-auth/client";
 import { useRouter } from "next/dist/client/router";
+import Link from "next/link";
 
 import { FormEvent, useEffect, useState } from "react";
 
-import { Button, Flex, Stack } from "@chakra-ui/react";
+import { Button, Flex, Link as ChakraLink, Stack } from "@chakra-ui/react";
 import { toast } from "react-toastify";
 
 import { Input } from "../components/Form/Input";
@@ -37,7 +38,7 @@ export default function SignIn() {
   }
 
   return (
-    <Flex width="100vw" height="100vh" align="center" justify="center">
+    <Flex width="100vw" height="100vh" direction="column" align="center" justify="center">
       <Flex
         as="form"
         width="100%"
@@ -68,6 +69,10 @@ export default function SignIn() {
           Entrar
         </Button>
       </Flex>
+
+      <Link href="/signUp">
+        <ChakraLink fontWeight="bold" fontSize="md" mt="7">Não tem conta? Fazer cadastro</ChakraLink>
+      </Link>
     </Flex>
   );
 }
